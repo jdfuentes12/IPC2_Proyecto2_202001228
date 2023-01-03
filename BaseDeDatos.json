@@ -1,0 +1,110 @@
+{
+    "listaClientes": [
+        {
+            "nit": "98939203",
+            "nombre": " Jackeline Benitez ",
+            "usuario": " jacks128 ",
+            "clave": " Kirby123 ",
+            "direccion": " 16 calle ",
+            "correo": " jacky@gmail.com ",
+            "empresa": " A102 ",
+            "playlists": [
+                "002",
+                "003"
+            ]
+        },
+        {
+            "nit": "684071K",
+            "nombre": " JorgePerez ",
+            "usuario": " perecito ",
+            "clave": " Kirby123 ",
+            "direccion": " 16 calle ",
+            "correo": " jperez@gmail.com ",
+            "empresa": " A103 ",
+            "playlists": [
+                "004"
+            ]
+        }
+    ],
+    "listaPlaylist": [
+        {
+            "id": "002",
+            "nit": "98939203",
+            "vinyl": "True",
+            "compacto": "True",
+            "categoria": "Fiesta",
+            "canciones": [
+                {
+                    "id": "1",
+                    "nombre": "Chiquitita",
+                    "anio": "1960",
+                    "artista": "Abba",
+                    "genero": "Pop"
+                },
+                {
+                    "id": "2",
+                    "nombre": "El Triste",
+                    "anio": "1988",
+                    "artista": "Jose Jose",
+                    "genero": "Clasica"
+                }
+            ]
+        },
+        {
+            "id": "003",
+            "nit": "98939203",
+            "vinyl": "True",
+            "compacto": "True",
+            "categoria": "Fiesta",
+            "canciones": [
+                {
+                    "id": "1",
+                    "nombre": "Chiquitita",
+                    "anio": "1960",
+                    "artista": "Abba",
+                    "genero": "Pop"
+                },
+                {
+                    "id": "2",
+                    "nombre": "El Triste",
+                    "anio": "1988",
+                    "artista": "Jose Jose",
+                    "genero": "Clasica"
+                }
+            ]
+        },
+        {
+            "id": "004",
+            "nit": "684071k",
+            "vinyl": "True",
+            "compacto": "True",
+            "categoria": "Fiesta",
+            "canciones": [
+                {
+                    "id": "1",
+                    "nombre": "Chiquitita",
+                    "anio": "1960",
+                    "artista": "Abba",
+                    "genero": "Pop"
+                },
+                {
+                    "id": "2",
+                    "nombre": "El Triste",
+                    "anio": "1988",
+                    "artista": "Jose Jose",
+                    "genero": "Clasica"
+                }
+            ]
+        }
+    ],
+    "listaEmpresas": [
+        {
+            "id": "A102",
+            "nombre": "Cacahuate Company"
+        },
+        {
+            "id": "A103",
+            "nombre": "Lechuga Company"
+        }
+    ]
+}
