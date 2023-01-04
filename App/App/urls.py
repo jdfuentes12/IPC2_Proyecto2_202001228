@@ -1,7 +1,7 @@
-"""frontend URL Configuration
+"""App URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.1/topics/http/urls/
+    https://docs.djangoproject.com/en/3.2/topics/http/urls/
 Examples:
 Function views
     1. Add an import:  from my_app import views
@@ -15,7 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
+from Aplicacion import views
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.inicio),
+    path('enviararchivo/',views.enviararchivo, name ='enviararchivo' ),
+    path('salida/', views.salida, name = 'salidaxml'),
+    path('consulta/', views.consulta_fech),
+    path('enviar/', views.enviarinfo),
+    path('reset/', views.reset),
+    path('enviacodigo/', views.codigo),
+    path('errores/', views.peticion_error),
+    path('ayuda/', views.ayuda),
+    path('consult/', views.consulta),
+    path('regreso/', views.datos)
 ]

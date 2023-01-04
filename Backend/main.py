@@ -6,33 +6,29 @@ import xml
 import webbrowser as wb
 from xml.etree import ElementTree as ET
 
-
-
+'''
+    CORRER EL SERVIDOR FRONTEND:
+    py manage.py runserver
+'''
+#python -m django startproject mysite
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
 CORS(app)
-
-
-@app.route('/')
-def home():
-    return 'Hello World'
-
-@app.route('/login')
+#-------------------------------------GET'S-------------------------------------#
+@app.route('/login',methods=['GET'])
 def login():
-    json = request.get_json()
-    user = json['user']
-    password = json['password']
-    
-    #f usuraio == None:
-    #   return jsonify({'status': 'error', 'message': 'Usuario no encontrado'})
-    return jsonify({'status': 'ok', 'message': 'Usuario encontrado'})
+    datos = request.get_json()
+    with open('BaseDeDatos.json') as json_file:
+        data = json.load(json_file)
+        for usuario in data['listaClientes']:
+            if usuario['usuario'] == datos['usuario'] and usuario['clave'] == datos['clave']:
+                return jsonify({'status': 'ok', 'message': 'Usuario encontrado'})
+    return jsonify({'status': 'error', 'message': 'Usuario no encontrado'})
 
-@app.route('/consulta')
-def consulta():
-    pass
 
+#-------------------------------------POST'S-------------------------------------#
 @app.route('/carga', methods=['POST'])
 def carga():
     
@@ -40,7 +36,6 @@ def carga():
     tree = ET.fromstring(ruta)
     
     listaGeneral = {"listaClientes":None, "listaPlaylist": None, "listaEmpresas": None}
-    
     
     listaPlaylist = []
     listaCanciones = []
@@ -157,6 +152,93 @@ def carga():
     
     return jsonify({'status': 'ok', 'clientes': listaClientes, 'playlists': listaPlaylist, 'empresas': listaEmpresas})
 
+@app.route('/crearEmpresa', methods=['POST'])
+def crearEmpresa():
+    try:
+        datos = request.get_json()
+        with open('BaseDeDatos.json', 'r') as json_file:
+            base = json.load(json_file)
+        for empresas in base["listaEmpresas"]:
+            if datos["id"] == empresas["id"]:
+                return jsonify({'message': 'error', 'message': 'Empresa ya existe'})
+        base["listaEmpresas"].append(datos)
+        with open('BaseDeDatos.json', 'w') as json_file:
+            json.dump(base, json_file, indent=4)
+        return jsonify({'status': 'ok', 'message': 'Empresa creada'})
+    except:
+        return jsonify({'status': 'error', 'message': 'Error al crear empresa'})
+
+@app.route('/crearPlaylist', methods=['POST'])
+def crearPlaylist():
+    try:
+        datos = request.get_json()
+        with open('BaseDeDatos.json', 'r') as json_file:
+            base = json.load(json_file)
+        for playlist in base["listaPlaylist"]:
+            if datos["id"] == playlist["id"]:
+                return jsonify({'message': 'error', 'message': 'Playlist ya existe'})
+        base["listaPlaylist"].append(datos)
+        with open('BaseDeDatos.json', 'w') as json_file:
+            json.dump(base, json_file, indent=4)
+        return jsonify({'status': 'ok', 'message': 'Playlist creada'})
+    except:
+        return jsonify({'status': 'error', 'message': 'Error al crear playlist'})
+
+@app.route('/crearCliente', methods=['POST'])
+def crearCliente():
+    try:
+        datos = request.get_json()
+        with open('BaseDeDatos.json', 'r') as json_file:
+            base = json.load(json_file)
+        for cliente in base["listaClientes"]:
+            if datos["nit"] == cliente["nit"]:
+                return jsonify({'message': 'error', 'message': 'Cliente ya existe'})
+        base["listaClientes"].append(datos)
+        with open('BaseDeDatos.json', 'w') as json_file:
+            json.dump(base, json_file, indent=4)
+        return jsonify({'status': 'ok', 'message': 'Cliente creado'})
+    except:
+        return jsonify({'status': 'error', 'message': 'Error al crear cliente'})
+
+#-------------------------------------DELETE'S-------------------------------------#
+@app.route('/eliminarEmpresa', methods=['DELETE'])
+def elimnarEmpresa():
+    datos = request.get_json()
+    with open('BaseDeDatos.json', 'r') as json_file:
+        base = json.load(json_file)
+    for empresa in base["listaEmpresas"]:
+        if datos["id"] == empresa["id"]:
+            base["listaEmpresas"].remove(empresa)
+            with open('BaseDeDatos.json', 'w') as json_file:
+                json.dump(base, json_file, indent=4)
+            return jsonify({'status': 'ok', 'message': 'Empresa eliminada'})
+    return jsonify({'status': 'error', 'message': 'Empresa no existe'})
+
+@app.route('/eliminarPlaylist', methods=['DELETE'])
+def eliminarPlaylist():
+    datos = request.get_json()
+    with open('BaseDeDatos.json', 'r') as json_file:
+        base = json.load(json_file)
+    for playlist in base["listaPlaylist"]:
+        if datos["id"] == playlist["id"]:
+            base["listaPlaylist"].remove(playlist)
+            with open('BaseDeDatos.json', 'w') as json_file:
+                json.dump(base, json_file, indent=4)
+            return jsonify({'status': 'ok', 'message': 'Playlist eliminada'})
+    return jsonify({'status': 'error', 'message': 'Playlist no existe'})
+
+@app.route('/eliminarCliente', methods=['DELETE'])
+def eliminarCliente():
+    datos = request.get_json()
+    with open('BaseDeDatos.json', 'r') as json_file:
+        base = json.load(json_file)
+    for cliente in base["listaClientes"]:
+        if datos["nit"] == cliente["nit"]:
+            base["listaClientes"].remove(cliente)
+            with open('BaseDeDatos.json', 'w') as json_file:
+                json.dump(base, json_file, indent=4)
+            return jsonify({'status': 'ok', 'message': 'Cliente eliminado'})
+    return jsonify({'status': 'error', 'message': 'Cliente no existe'})
 
 if __name__ == '__main__':
     app.run(debug=True)
