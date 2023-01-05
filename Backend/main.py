@@ -203,42 +203,51 @@ def crearCliente():
 #-------------------------------------DELETE'S-------------------------------------#
 @app.route('/eliminarEmpresa', methods=['DELETE'])
 def elimnarEmpresa():
-    datos = request.get_json()
-    with open('BaseDeDatos.json', 'r') as json_file:
-        base = json.load(json_file)
-    for empresa in base["listaEmpresas"]:
-        if datos["id"] == empresa["id"]:
-            base["listaEmpresas"].remove(empresa)
-            with open('BaseDeDatos.json', 'w') as json_file:
-                json.dump(base, json_file, indent=4)
-            return jsonify({'status': 'ok', 'message': 'Empresa eliminada'})
-    return jsonify({'status': 'error', 'message': 'Empresa no existe'})
+    try:
+        datos = request.get_json()
+        with open('BaseDeDatos.json', 'r') as json_file:
+            base = json.load(json_file)
+        for empresa in base["listaEmpresas"]:
+            if datos["id"] == empresa["id"]:
+                base["listaEmpresas"].remove(empresa)
+                with open('BaseDeDatos.json', 'w') as json_file:
+                    json.dump(base, json_file, indent=4)
+                return jsonify({'status': 'ok', 'message': 'Empresa eliminada'})
+        return jsonify({'status': 'error', 'message': 'Empresa no existe'})
+    except:
+        return jsonify({'status': 'error', 'message': 'Error al eliminar empresa'})
 
 @app.route('/eliminarPlaylist', methods=['DELETE'])
 def eliminarPlaylist():
-    datos = request.get_json()
-    with open('BaseDeDatos.json', 'r') as json_file:
-        base = json.load(json_file)
-    for playlist in base["listaPlaylist"]:
-        if datos["id"] == playlist["id"]:
-            base["listaPlaylist"].remove(playlist)
-            with open('BaseDeDatos.json', 'w') as json_file:
-                json.dump(base, json_file, indent=4)
-            return jsonify({'status': 'ok', 'message': 'Playlist eliminada'})
-    return jsonify({'status': 'error', 'message': 'Playlist no existe'})
+    try:
+        datos = request.get_json()
+        with open('BaseDeDatos.json', 'r') as json_file:
+            base = json.load(json_file)
+        for playlist in base["listaPlaylist"]:
+            if datos["id"] == playlist["id"]:
+                base["listaPlaylist"].remove(playlist)
+                with open('BaseDeDatos.json', 'w') as json_file:
+                    json.dump(base, json_file, indent=4)
+                return jsonify({'status': 'ok', 'message': 'Playlist eliminada'})
+        return jsonify({'status': 'error', 'message': 'Playlist no existe'})
+    except:
+        return jsonify({'status': 'error', 'message': 'Error al eliminar playlist'})
 
 @app.route('/eliminarCliente', methods=['DELETE'])
 def eliminarCliente():
-    datos = request.get_json()
-    with open('BaseDeDatos.json', 'r') as json_file:
-        base = json.load(json_file)
-    for cliente in base["listaClientes"]:
-        if datos["nit"] == cliente["nit"]:
-            base["listaClientes"].remove(cliente)
-            with open('BaseDeDatos.json', 'w') as json_file:
-                json.dump(base, json_file, indent=4)
-            return jsonify({'status': 'ok', 'message': 'Cliente eliminado'})
-    return jsonify({'status': 'error', 'message': 'Cliente no existe'})
+    try:
+        datos = request.get_json()
+        with open('BaseDeDatos.json', 'r') as json_file:
+            base = json.load(json_file)
+        for cliente in base["listaClientes"]:
+            if datos["nit"] == cliente["nit"]:
+                base["listaClientes"].remove(cliente)
+                with open('BaseDeDatos.json', 'w') as json_file:
+                    json.dump(base, json_file, indent=4)
+                return jsonify({'status': 'ok', 'message': 'Cliente eliminado'})
+        return jsonify({'status': 'error', 'message': 'Cliente no existe'})
+    except:
+        return jsonify({'status': 'error', 'message': 'Error al eliminar cliente'})
 
 if __name__ == '__main__':
     app.run(debug=True)
