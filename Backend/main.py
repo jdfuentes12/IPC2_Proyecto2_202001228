@@ -10,7 +10,6 @@ from xml.etree import ElementTree as ET
     CORRER EL SERVIDOR FRONTEND:
     py manage.py runserver
 '''
-#python -m django startproject mysite
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -26,7 +25,6 @@ def login():
             if usuario['usuario'] == datos['usuario'] and usuario['clave'] == datos['clave']:
                 return jsonify({'status': 'ok', 'message': 'Usuario encontrado'})
     return jsonify({'status': 'error', 'message': 'Usuario no encontrado'})
-
 
 #-------------------------------------POST'S-------------------------------------#
 @app.route('/carga', methods=['POST'])
@@ -248,6 +246,21 @@ def eliminarCliente():
         return jsonify({'status': 'error', 'message': 'Cliente no existe'})
     except:
         return jsonify({'status': 'error', 'message': 'Error al eliminar cliente'})
+
+@app.route('/eliminarCancion', methods=['DELETE'])
+def eliminarCancion():
+    datos = request.get_json()
+    with open('BaseDeDatos.json', 'r') as json_file:
+        base = json.load(json_file)
+    for playlist in base["listaPlaylist"]:
+        if datos["idPlaylist"] == playlist["id"]:
+            for cancion in playlist["canciones"]:
+                if datos["idCancion"] == cancion["id"]:
+                    playlist["canciones"].remove(cancion)
+                    with open('BaseDeDatos.json', 'w') as json_file:
+                        json.dump(base, json_file, indent=4)
+                    return jsonify({'status': 'ok', 'message': 'Cancion eliminada'})
+            return jsonify({'status': 'error', 'message': 'Cancion no existe'})
 
 if __name__ == '__main__':
     app.run(debug=True)

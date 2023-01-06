@@ -63,13 +63,6 @@
                     "anio": "1960",
                     "artista": "Abba",
                     "genero": "Pop"
-                },
-                {
-                    "id": "2",
-                    "nombre": "El Triste",
-                    "anio": "1988",
-                    "artista": "Jose Jose",
-                    "genero": "Clasica"
                 }
             ]
         },
